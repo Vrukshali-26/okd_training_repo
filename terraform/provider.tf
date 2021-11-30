@@ -1,3 +1,3 @@
 provider "civo" {
-  token = var.civo_token
+  token = ${{ secrets.CIVO_TOKEN }}
 }
