@@ -111,6 +111,9 @@ name: Terraform to setup Civo Cluster
 
 on: [push, pull_request]
 
+env:
+    token: ${{ secrets.CIVO_TOKEN }}
+
 jobs:
   terraform:
     name: build
@@ -123,8 +126,6 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         
       - name: Terraform Init and Plan
-        env:
-            token: ${{ secrets.CIVO_TOKEN }}
         run: cd terraform && terraform init && terraform plan
     
 #       - name: Terraform Plan
