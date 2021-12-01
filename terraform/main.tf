@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "civo" {
-  token = ${{ secrets.CIVO_TOKEN }}
+  token = "mpl6XUOkXb3AasxJnxjLCZxPDLCigQiCAUFcF3HO1MyDVKCArH"
   region = "LON1"
 }
 
