@@ -7,8 +7,12 @@ terraform {
   }
 }
 
+variable "token" {
+  type = string
+}
+
 provider "civo" {
-  token = "mpl6XUOkXb3AasxJnxjLCZxPDLCigQiCAUFcF3HO1MyDVKCArH"
+  token = var.token
   region = "LON1"
 }
 
