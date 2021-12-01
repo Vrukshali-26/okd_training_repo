@@ -1,3 +1,21 @@
+terraform {
+  required_providers {
+    civo = {
+      source = "civo/civo"
+      version = "0.10.3"
+    }
+  }
+}
+
+variable "token" {
+  type = string
+}
+
+provider "civo" {
+  token = "var.token"
+  region = "LON1"
+}
+
 resource "civo_kubernetes_cluster" "cluster" {
     name = "sample2"
     #region = "LON1"
