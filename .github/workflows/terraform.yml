@@ -44,16 +44,15 @@
 
 name: 'Terraform'
 
-on: [push, pull_request]
+on: [push]
 
 env:
    CIVO_TOKEN: ${{ secrets.CIVO_TOKEN }}
 
 jobs:
-  terraform:
+  terraform_apply:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
 #     defaults:
@@ -69,28 +68,35 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       
-#     - name: Install civo
-#       uses: civo/action-civo
-#       with:
-#         token: ${{ secrets.CIVO_TOKEN }}
+    - name: Install Terraform
+      env:
+            TERRAFORM_VERSION: "0.12.15"
+      run: |
+        tf_version=$TERRAFORM_VERSION
+        wget https://releases.hashicorp.com/terraform/"$tf_version"/terraform_"$tf_version"_linux_amd64.zip
+        unzip terraform_"$tf_version"_linux_amd64.zip
+        sudo mv terraform /usr/local/bin/
+ 
       
-#     - name: Install civo provider
-#       run: wget -c https://github.com/civo/terraform-provider-civo/releases/download/v0.9.4/terraform-provider-civo_0.9.4_linux_amd64.tar.gz -O - | sudo tar -xz && mv terraform-provider-civo terraform-provider-civo_v0.9.4
+    - name: Install civo provider
+      run: wget -c https://github.com/civo/terraform-provider-civo/releases/download/v0.9.4/terraform-provider-civo_0.9.4_linux_amd64.tar.gz -O - | sudo tar -xz && mv terraform-provider-civo terraform-provider-civo_v0.9.4
 
-#     - name: Create structure
-#       run: mkdir -p .terraform/plugins/linux_amd64 && mv terraform-provider-civo_v0.9.4 .terraform/plugins/linux_amd64/
+    - name: Create structure
+      run: mkdir -p .terraform/plugins/linux_amd64 && mv terraform-provider-civo_v0.9.4 .terraform/plugins/linux_amd64/
 
-
+    - name: Verify Terraform version
+      run: terraform --version
+      
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
+#     - name: Terraform Init
+#       run: terraform init
       
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan
+#     # Generates an execution plan for Terraform
+#     - name: Terraform Plan
+#       run: terraform plan
 
-      # On push to master, build or change infrastructure according to Terraform configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    - name: Terraform Apply
-      #if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+#       # On push to master, build or change infrastructure according to Terraform configuration files
+#       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+#     - name: Terraform Apply
+#       #if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+#       run: terraform apply -auto-approve
