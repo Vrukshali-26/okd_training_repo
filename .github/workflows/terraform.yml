@@ -111,9 +111,6 @@ name: terraform-github-action
 
 on: [push, pull_request]
 
-env:
-  token: ${{ secrets.CIVO_TOKEN }}
-
 jobs:
   build:
     name: build
@@ -126,6 +123,8 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         
       - name: Terraform Init
+        env:
+            token: ${{ secrets.CIVO_TOKEN }}
         run: cd terraform && terraform init
     
       - name: Terraform Plan
