@@ -128,7 +128,5 @@ jobs:
       - name: Terraform Init and Plan
         run: cd terraform && terraform init && terraform plan
     
-#       - name: Terraform Plan
-#         env:
-#             token: ${{ secrets.CIVO_TOKEN }}
-#         run: cd terraform && terraform plan
+      - name: Terraform Apply
+        run: cd terraform && terraform apply -auto-approve
