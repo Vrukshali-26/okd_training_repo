@@ -44,11 +44,10 @@
 
 name: 'Terraform'
 
-on:
-  push:
-    branches:
-    - master
-  pull_request:
+on: [push, pull_request]
+
+env:
+   CIVO_TOKEN: ${{ secrets.CIVO_TOKEN }}
 
 jobs:
   terraform:
@@ -70,10 +69,10 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       
-    - name: Install civo
-      uses: civo/action-civo@latest
-      with:
-        token: ${{ secrets.CIVO_TOKEN }}
+#     - name: Install civo
+#       uses: civo/action-civo
+#       with:
+#         token: ${{ secrets.CIVO_TOKEN }}
       
 #     - name: Install civo provider
 #       run: wget -c https://github.com/civo/terraform-provider-civo/releases/download/v0.9.4/terraform-provider-civo_0.9.4_linux_amd64.tar.gz -O - | sudo tar -xz && mv terraform-provider-civo terraform-provider-civo_v0.9.4
