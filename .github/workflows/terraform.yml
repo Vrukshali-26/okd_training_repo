@@ -57,9 +57,9 @@ jobs:
     environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
+#     defaults:
+#       run:
+#         shell: bash
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -70,11 +70,17 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       
-    - name: Install civo provider
-      run: wget -c https://github.com/civo/terraform-provider-civo/releases/download/v0.9.4/terraform-provider-civo_0.9.4_linux_amd64.tar.gz -O - | sudo tar -xz && mv terraform-provider-civo terraform-provider-civo_v0.9.4
+    - name: Install civo
+      uses: civo/action-civo@0.10.3
+      with:
+        token: ${{ secrets.CIVO_TOKEN }}
+      
+#     - name: Install civo provider
+#       run: wget -c https://github.com/civo/terraform-provider-civo/releases/download/v0.9.4/terraform-provider-civo_0.9.4_linux_amd64.tar.gz -O - | sudo tar -xz && mv terraform-provider-civo terraform-provider-civo_v0.9.4
 
-    - name: Create structure
-      run: mkdir -p .terraform/plugins/linux_amd64 && mv terraform-provider-civo_v0.9.4 .terraform/plugins/linux_amd64/
+#     - name: Create structure
+#       run: mkdir -p .terraform/plugins/linux_amd64 && mv terraform-provider-civo_v0.9.4 .terraform/plugins/linux_amd64/
+
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
