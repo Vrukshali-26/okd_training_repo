@@ -71,7 +71,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       
     - name: Install civo
-      uses: civo/action-civo@0.10.3
+      uses: civo/action-civo@latest
       with:
         token: ${{ secrets.CIVO_TOKEN }}
       
