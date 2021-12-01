@@ -1,1 +1,3 @@
-var "token" = { string }
+variable "token" {
+  type = string
+}
